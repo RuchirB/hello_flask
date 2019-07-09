@@ -126,19 +126,17 @@ def processIt(userInput):
 		return [elaborated, elaboration]
 
 	def lastTenEventsOrPeople(userInput):
-		nonlocal totalPrintString
 		if("last" in userInput or "10 events" in userInput):
 			totalPrintString += Helper.last10Events(storyIndex)
 			return True
 		elif("people" in userInput or "said" in userInput):
-			totalPrintString += Helper.peopleSaid(storyIndex)	
+			totalPrintString+= Helper.peopleSaid(storyIndex)	
 			return True
 		else:
 			return False
 
 
 	def giveUserHistory():
-		nonlocal totalPrintString
 		storyFile = open("/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/storyInteractions.txt", "r")
 		array = json.load(storyFile)
 		totalPrintString += "Here are the stories you've asked about before: \n"
@@ -150,7 +148,6 @@ def processIt(userInput):
 		return True
 
 	def getUpdatesOn(storyInput):
-		nonlocal totalPrintString
 		totalPrintString += "Would you like updates on any of these stories?"+ "\n"
 		answer  = False
 		while answer != True:
@@ -166,7 +163,6 @@ def processIt(userInput):
 				totalPrintString += "What?"+ "\n"
 
 	def displayCategoryNews(userInput):
-		nonlocal totalPrintString
 		focusCategory = ""
 		focusCategoryList = []
 		for category in Helper.listOfCategories:
@@ -186,7 +182,6 @@ def processIt(userInput):
 		
 
 	def checkEveryArticleName(userInput):
-		nonlocal totalPrintString
 		i = -1
 		for article in Helper.jsonRequest:
 			i = i+1
@@ -195,7 +190,6 @@ def processIt(userInput):
 
 
 	def checkForHistory(userInput):
-		nonlocal totalPrintString
 		storyFile = open("/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/storyInteractions.txt", "r")
 		array = json.load(storyFile)
 		id = ""
@@ -214,7 +208,6 @@ def processIt(userInput):
 			return True
 
 	def giveUpdateReport(storyID, accessTime):
-		nonlocal totalPrintString
 		givenUpdate = False
 		storyDetailsUrl = "https://newslens.berkeley.edu/api/story/" + str(storyID)
 		storyJson = requests.get(storyDetailsUrl).json()

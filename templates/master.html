@@ -6,12 +6,16 @@
 
 		<script type='text/javascript'>
 			function send_message() {
+				console.log("Button clicked")
 				var last_answer=$('#input_ID').val()
 				var url = "http://localhost:5000/last_answer/" +last_answer
 				$.getJSON(url, success(server_response) {
 					console.log(server_response);
+					console.log(server_response['chatbot_response'])
+					console.log("Getting response from " +url)
+					$('#chat_container').append("<div class='server_reply'>"+server_response['chatbot_response']+"</div>");
 				})
-			}
+			}	
 		</script>
 
 		<meta charset="utf-8" />
@@ -21,14 +25,15 @@
 		filename='hello.css')}}" />
 	</head>
 
-	<form method="post" action=".">
+	<form>
 		<p><input type="text" name="input"> </p>
-		<p><input type="submit" name="submit" id='input_ID' onclick="send_message()"></p>
-	</form> 
+	</form>
+
+	 <button onclick="send_message()">Submit</button>  
 
 	
 	<body>
-		{{ chat }}
+		<div id='chat_container'></div>
 	</body>
 	</html>
 

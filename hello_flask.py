@@ -10,7 +10,7 @@ currentUser = ""
 # Create the application.
 APP = Flask(__name__)
 
-@APP.route('/')
+@APP.route('/', methods=['GET', 'POST'])
 def main():
 	return render_template('master.html') 
 
@@ -25,7 +25,7 @@ def index(last_answer):
 	else: #user is already defined and has started the conversation 
 		chat_history[currentUser] = chat_history[currentUser] + last_answer + "\n" + response 
 
-	return render_template('master.html', chat=chat_history[currentUser]) 
+	return {"chatbot_response", chatBotResponse}
 
 
 @APP.route("/get_new_userid", methods=['GET', 'POST']) #simple function to generate a user ID
