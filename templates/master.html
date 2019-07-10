@@ -6,7 +6,7 @@
 
 		<script type='text/javascript'>
 			function send_message() {
-				console.log("Button clicked") #I don't even get this log message!
+				console.log("Button clicked") //I don't even get this log message!
 				var last_answer=$('#input_ID').val()
 				var url = "http://localhost:5000/last_answer/" +last_answer
 				$.getJSON(url, success(server_response) {
