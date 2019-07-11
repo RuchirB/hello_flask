@@ -1,10 +1,12 @@
 
-from flask import Flask, render_template, request
-import processInput 
+from flask import Flask, render_template, request, jsonify
+import processInput
+import random 
+
 
 
 chat_history = {} #A dict in the format of {ID, chathistory}
-global currentUser
+
 currentUser = ""
 
 # Create the application.
@@ -16,16 +18,18 @@ def main():
 
 @APP.route('/last_answer/<last_answer>', methods=['GET', 'POST'])
 def index(last_answer):
-
+	global currentUser
+	global chat_history
 	chatBotResponse = processInput.processIt(last_answer) #Store the response from the chatbot here
 
 	if currentUser == "":
 		currentUser = get_new_userid()
-		chat_history.update({currentUser, last_answer + "\n" + response}) #Adding the user to the chat_history dict with the first chat request and response
+		chat_history.update({currentUser: last_answer + "\n" + chatBotResponse}) #Adding the user to the chat_history dict with the first chat request and response
 	else: #user is already defined and has started the conversation 
-		chat_history[currentUser] = chat_history[currentUser] + last_answer + "\n" + response 
+		print("USER ALREADY DEFINED " +currentUser)
+		chat_history[currentUser] = chat_history[currentUser] + last_answer + "\n" + chatBotResponse 
 
-	return {"chatbot_response", chatBotResponse}
+	return jsonify({"chatbot_response": chatBotResponse})
 
 
 @APP.route("/get_new_userid", methods=['GET', 'POST']) #simple function to generate a user ID

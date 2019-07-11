@@ -19,7 +19,7 @@ class Helper:
 
 	@staticmethod
 	def displayNewsStories():
-		return "Hello! Today's important news stories are " +Helper.listOfThree[0] + ", " + Helper.listOfThree[1] + ", and " +Helper.listOfThree[2] +". (There's also been an update in W that we talked about last week. \n"
+		return "Hello! Today's important news stories are " +Helper.listOfThree[0] + ", " + Helper.listOfThree[1] + ", and " +Helper.listOfThree[2] +" \n"
 
 	@staticmethod
 	def elaborateOnStory(storyIndex):
@@ -53,12 +53,15 @@ class Helper:
 		return "The " +storyName + " story started " +dateTimeModule.constructTimeDeltaPhrase(daysAgo) +". The latest update from this story comes from " +dateTimeModule.constructTimeDeltaPhrase(daysAgoLast) +" when " + storySummary
 
 	@staticmethod
-	def last10Events(storyIndex):
+	def last10Events(storyIndex): #After the user asks for a story, they can ask for the last 10 events
 		rv = ""
-		rv += "_____________Here are the last ten events: _________________ \n" 
+		rv += "Here are the last ten events for " +Helper.jsonRequest[storyIndex]["story_name"] +":"+"\n"
 		storyEvents = Helper.jsonRequest[storyIndex]["latest_highlights"]
 		for x in range (10):
-			rv += str(x+1) +") "+storyEvents[x]["summary_title"] + "\n"
+			try:
+				rv += str(x+1) +") "+storyEvents[x]["summary_title"] + "\n"
+			except:
+				print(" Error in top 10" )
 
 		return rv
 
@@ -70,8 +73,7 @@ class Helper:
 		peopleList = requests.get(peopleInfoUrl).json()
 
 		#totalPrintString += peopleList)
-		return peopleList[0]["name"] +", " +peopleList[1]["name"] + ", and " +peopleList[2]["name"] +" commented on the issue. " + peopleList[2]["name"] 
-		+" said \"" + highlightJson["descriptions"][2]["para"] +"\" \n" 
+		return peopleList[0]["name"] +", " +peopleList[1]["name"] + ", and " +peopleList[2]["name"] +" commented on the issue. " + peopleList[2]["name"] +" said \"" + highlightJson["descriptions"][2]["para"] +"\" \n" 
 
 	@staticmethod
 	def loadSavedHistory():
@@ -108,6 +110,8 @@ def processIt(userInput):
 	totalPrintString = ""
 	storyIndex = 0
 	def elaborateOnStory(userInput):
+		global totalPrintString
+		print("In elaborate on story")
 		#if userInput contains something from listOfThree, get that index and call a method elaborate that further describes it
 		elaborated = False
 		elaboration = ""
@@ -115,9 +119,8 @@ def processIt(userInput):
 			breakLoop=False
 			for individualWord in userInput.split():
 				if individualWord.lower() in x.lower():
-					#totalPrintString += "Found it in " +x +" print " +str(Helper.listOfThree.index(x)))
 					storyIndex=Helper.listOfThree.index(x)
-					elaboration = Helper.elaborateOnStory(storyIndex)
+					totalPrintString += Helper.elaborateOnStory(storyIndex)
 					elaborated = True
 					breakLoop=True
 					break
@@ -126,7 +129,8 @@ def processIt(userInput):
 		return [elaborated, elaboration]
 
 	def lastTenEventsOrPeople(userInput):
-		if("last" in userInput or "10 events" in userInput):
+		global totalPrintString
+		if("last" in userInput.lower() or "10 events" in userInput):
 			totalPrintString += Helper.last10Events(storyIndex)
 			return True
 		elif("people" in userInput or "said" in userInput):
@@ -137,6 +141,7 @@ def processIt(userInput):
 
 
 	def giveUserHistory():
+		global totalPrintString
 		storyFile = open("/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/storyInteractions.txt", "r")
 		array = json.load(storyFile)
 		totalPrintString += "Here are the stories you've asked about before: \n"
@@ -148,6 +153,7 @@ def processIt(userInput):
 		return True
 
 	def getUpdatesOn(storyInput):
+		global totalPrintString
 		totalPrintString += "Would you like updates on any of these stories?"+ "\n"
 		answer  = False
 		while answer != True:
@@ -163,6 +169,8 @@ def processIt(userInput):
 				totalPrintString += "What?"+ "\n"
 
 	def displayCategoryNews(userInput):
+		print("Looking to see if " +userInput +" is a category")
+		global totalPrintString
 		focusCategory = ""
 		focusCategoryList = []
 		for category in Helper.listOfCategories:
@@ -171,6 +179,7 @@ def processIt(userInput):
 				totalPrintString += "Searching for stories under " +focusCategory + "..."+ "\n"
 				break
 		if focusCategory is "":
+			print("No Category Match")
 			return False
 		else:
 			for x in Helper.jsonRequest:
@@ -179,6 +188,8 @@ def processIt(userInput):
 
 		for newsStory in focusCategoryList:
 			totalPrintString += newsStory["story_name"]+ "\n"
+
+		return True
 		
 
 	def checkEveryArticleName(userInput):
@@ -208,6 +219,7 @@ def processIt(userInput):
 			return True
 
 	def giveUpdateReport(storyID, accessTime):
+		global totalPrintString
 		givenUpdate = False
 		storyDetailsUrl = "https://newslens.berkeley.edu/api/story/" + str(storyID)
 		storyJson = requests.get(storyDetailsUrl).json()
@@ -221,6 +233,7 @@ def processIt(userInput):
 		if givenUpdate is False:
 			totalPrintString += "You're all up to date with " +storyJson[story_name]+ "\n"
 	def checkForLocation(userInput):
+		global totalPrintString
 		if "from" in userInput:
 			userInput = userInput.split("from ")[1]
 		if "in" in userInput:
@@ -245,7 +258,6 @@ def processIt(userInput):
 	#After implementing the above, store any specific people names in a separate history file with date accessed
 	#implement the help command 
 	Helper.init()
-	totalPrintString += "Hi, I'm NewsLens! \n"
 	exit = False
 	while(exit != True):
 		alreadyResponded = False
@@ -253,22 +265,18 @@ def processIt(userInput):
 		if(alreadyResponded != True and "exit" in userInput):
 			exit=True
 			dateTimeModule.lastSpokeUpdate(datetime.datetime.utcnow()) #update the file with the time spoken now for later reference
-		if("new" in userInput):
+		if("new" in userInput.lower()):
 			totalPrintString += Helper.displayNewsStories()
 			alreadyResponded = True
 
 		if alreadyResponded != True:
 			alreadyResponded = elaborateOnStory(userInput)[0]
-
 		if alreadyResponded != True:
 			alreadyResponded = lastTenEventsOrPeople(userInput)
-
 		if alreadyResponded != True and "history" in userInput:
 			alreadyResponded = giveUserHistory()
-
 		if alreadyResponded != True:
 			alreadyResponded = displayCategoryNews(userInput)
-
 		if alreadyResponded != True:
 			alreadyResponded = checkForHistory(userInput)
 
@@ -279,6 +287,8 @@ def processIt(userInput):
 			alreadyResponded = checkEveryArticleName(userInput)
 		if alreadyResponded == True:
 			return totalPrintString
+		else:
+			return "Unable to understand input"
 
 
 	

@@ -1,0 +1,68 @@
+.last_answer {
+  position: relative;
+  padding: 15px;
+  margin: 3em 25em 3em;
+  color: #000;
+  background: #e4e4e4;
+  border-radius: 40px;
+  background: linear-gradient(top, #e4e4e4, #e4e4e4);
+}
+
+/* creates triangle */
+.last_answer:after {
+  content: "";
+  display: block; /* reduce the damage in FF3.0 */
+  position: absolute;
+  bottom: -15px;
+  left: 30px;
+  width: 0;
+  border-width: 15px 15px 0;
+  border-style: solid;
+  border-color: #e4e4e4 transparent;
+}
+
+.last_answer:before
+{
+    content: 'You:';
+    position: absolute;
+    display: block;
+    width: 0;
+    z-index: 1;
+    top: -15px;
+    left: 16px;
+}
+
+.server_reply {
+  position: relative;
+  padding: 15px;
+  margin: 3em 25em 3em;
+  color: #000;
+  background: #0a7efe;
+  border-radius: 40px;
+  background: linear-gradient(top, #0a7efe, #0a7efe);
+}
+
+/* creates triangle */
+.server_reply:after {
+  content: "";
+  display: block; /* reduce the damage in FF3.0 */
+  position: absolute;
+  bottom: -15px;
+  right: 50px;
+  width: 0;
+  border-width: 15px 15px 0;
+  border-style: solid;
+  border-color: #0a7efe transparent;
+}
+
+.server_reply:before
+{
+    content: 'Newslens:';
+    position: absolute;
+    display: block;
+    width: 0;
+    z-index: 1;
+    top: -15px;
+    left: 16px;
+}
+
