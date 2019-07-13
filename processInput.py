@@ -1,4 +1,5 @@
-import requests, datetime, dateTimeModule, json
+import requests, datetime, dateTimeModule, json, os.path
+
 
 #listOfThree = list()
 class Helper:
@@ -7,9 +8,12 @@ class Helper:
 	jsonRequest = []
 	listOfHistory = []
 	listOfCategories = ["World Affairs", "Politics", "Business", "Culture", "Science"]
+	global userId
 
 	@staticmethod
-	def init():
+	def init(myId):
+		global userId
+		userId= myId
 		resp = requests.get('https://newslens.berkeley.edu/api/lanes/recent2')
 		Helper.jsonRequest = resp.json()
 		#Grab top three stories in a list
@@ -77,12 +81,15 @@ class Helper:
 
 	@staticmethod
 	def loadSavedHistory():
-		storyFile = open("/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/storyInteractions.txt", "r")
-		try:
-			Helper.listOfHistory = json.load(storyFile)
-		except ValueError as e:
-			pass
-		storyFile.close()
+		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
+
+		if(os.path.isfile(path)):
+			storyFile = open(path, "r")
+			try:
+				Helper.listOfHistory = json.load(storyFile)
+			except ValueError as e:
+				pass
+			storyFile.close()
 
 	@staticmethod
 	def saveStoryName(storyId):
@@ -99,17 +106,19 @@ class Helper:
 				Helper.listOfHistory.remove(jsonDict)
 
 		Helper.listOfHistory.append(myDict)
-		storyFile = open("/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/storyInteractions.txt", "w")
+		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
+		storyFile = open(path, "w")
 		storyFile.write(json.dumps(Helper.listOfHistory))
 		storyFile.close()
 
 #End class helper
 
-def processIt(userInput):
+def processIt(userInput, userId):
 	global totalPrintString
 	totalPrintString = ""
-	storyIndex = 0
+	global storyIndex
 	def elaborateOnStory(userInput):
+		global storyIndex
 		global totalPrintString
 		print("In elaborate on story")
 		#if userInput contains something from listOfThree, get that index and call a method elaborate that further describes it
@@ -120,6 +129,7 @@ def processIt(userInput):
 			for individualWord in userInput.split():
 				if individualWord.lower() in x.lower():
 					storyIndex=Helper.listOfThree.index(x)
+					print("storyIndex is " + str(storyIndex))
 					totalPrintString += Helper.elaborateOnStory(storyIndex)
 					elaborated = True
 					breakLoop=True
@@ -130,6 +140,10 @@ def processIt(userInput):
 
 	def lastTenEventsOrPeople(userInput):
 		global totalPrintString
+		global storyIndex
+
+		print("storyIndex is " + str(storyIndex))
+
 		if("last" in userInput.lower() or "10 events" in userInput):
 			totalPrintString += Helper.last10Events(storyIndex)
 			return True
@@ -142,7 +156,9 @@ def processIt(userInput):
 
 	def giveUserHistory():
 		global totalPrintString
-		storyFile = open("/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/storyInteractions.txt", "r")
+		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
+
+		storyFile = open(path, "r")
 		array = json.load(storyFile)
 		totalPrintString += "Here are the stories you've asked about before: \n"
 		for x in range(len(array)):
@@ -201,7 +217,8 @@ def processIt(userInput):
 
 
 	def checkForHistory(userInput):
-		storyFile = open("/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/storyInteractions.txt", "r")
+		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
+		storyFile = open(path, "r")
 		array = json.load(storyFile)
 		id = ""
 		for x in range(len(array)):
@@ -257,7 +274,7 @@ def processIt(userInput):
 	#Allow user to ask for a specific person name, search for it in database and pull info about it
 	#After implementing the above, store any specific people names in a separate history file with date accessed
 	#implement the help command 
-	Helper.init()
+	Helper.init(userId)
 	exit = False
 	while(exit != True):
 		alreadyResponded = False
@@ -267,6 +284,7 @@ def processIt(userInput):
 			dateTimeModule.lastSpokeUpdate(datetime.datetime.utcnow()) #update the file with the time spoken now for later reference
 		if("new" in userInput.lower()):
 			totalPrintString += Helper.displayNewsStories()
+			print(userId)
 			alreadyResponded = True
 
 		if alreadyResponded != True:
