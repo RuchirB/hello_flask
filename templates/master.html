@@ -28,12 +28,15 @@
 
 
 		      <div name = "ID container" id='id_container'></div>
+		      <div name = "Time Container" id='time_container'></div>
 
 		<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> 
 
 		<script type='text/javascript'>
 			$( window ).on( "load", function() {
-			console.log("Running script")
+		
+
+			console.log("Running script to load userID")
 
 			if(Cookies.get('user_id') == undefined){
 				console.log("No user_id defined, creating a new one.");
@@ -63,10 +66,20 @@
 
 				$.getJSON(url, function(server_response) {
 					console.log("set id to " +server_response["user_id"])
+
                 })
 
 			}
 			 });
+
+
+		console.log("Getting time")
+			var url = "http://localhost:5000/getLastTime/" +Cookies.get('user_id');
+			userId = $('#id_container').text()
+			console.log("USER ID IS GOING TO BE " +Cookies.get('user_id'))
+			$.getJSON(url, function(server_response) {
+				$('#time_container').append("<div class='timeId'> " + server_response["lastTime"]);
+			})
 			
 				
 		</script>

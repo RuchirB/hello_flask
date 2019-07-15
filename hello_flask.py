@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, jsonify
 import processInput
 import random 
+from datetime import datetime
 
 
 
@@ -22,6 +23,8 @@ def index(last_answer):
 	global currentUser
 	global chat_history
 	chatBotResponse = processInput.processIt(last_answer, currentUser) #Store the response from the chatbot here
+
+	processInput.updateLastSpokenString(datetime.utcnow(), currentUser) #Save current time 
 
 	if currentUser not in chat_history: #First chat
 		chat_history.update({currentUser: last_answer + "\n" + chatBotResponse}) #Adding the user to the chat_history dict with the first chat request and response
@@ -49,6 +52,11 @@ def setId(user_id):
 	global currentUser
 	currentUser = user_id
 	return jsonify({"user_id": currentUser})
+
+@APP.route('/getLastTime/<user_id>', methods=['GET', 'POST'])
+def getLastTime(user_id):
+	lastTime = processInput.sendBackLastSpokenString(user_id)
+	return jsonify({"lastTime": lastTime})
 
 
 if __name__ == '__main__':

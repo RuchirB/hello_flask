@@ -113,6 +113,18 @@ class Helper:
 
 #End class helper
 
+def sendBackLastSpokenString(userId):
+	lastSpoke = ""
+	if len(userId) == 0:
+		print("USER ID IS NOT EXISTENT WHAT")
+	else:
+		lastSpoke = dateTimeModule.init(userId)
+	return lastSpoke
+
+def updateLastSpokenString(utcnow, userId):
+	dateTimeModule.updateUserTime(utcnow, userId)
+	return True
+
 def processIt(userInput, userId):
 	global totalPrintString
 	totalPrintString = ""
@@ -249,6 +261,7 @@ def processIt(userInput, userId):
 				givenUpdate = True
 		if givenUpdate is False:
 			totalPrintString += "You're all up to date with " +storyJson[story_name]+ "\n"
+
 	def checkForLocation(userInput):
 		global totalPrintString
 		if "from" in userInput:
@@ -276,6 +289,8 @@ def processIt(userInput, userId):
 	#implement the help command 
 	Helper.init(userId)
 	exit = False
+
+
 	while(exit != True):
 		alreadyResponded = False
 
