@@ -72,4 +72,5 @@ if __name__ != '__main__':
 	APP.logger.handlers.extend(gunicorn_error_logger.handlers)
 	APP.logger.setLevel(logging.DEBUG)
 	APP.logger.debug('this will show in the log')
+	sys.stdout.write("TEST TO SEE IF IT WILL SHOW UP")
 
