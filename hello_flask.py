@@ -68,6 +68,6 @@ if __name__ == '__main__':
 
 if __name__ != '__main__':
     gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
+    APP.logger.handlers = gunicorn_logger.handlers
+    APP.logger.setLevel(gunicorn_logger.level)
 
