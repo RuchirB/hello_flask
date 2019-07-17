@@ -30,8 +30,6 @@ def index(last_answer):
 
 	chatBotResponse = processInput.processIt(last_answer, currentUser) #Store the response from the chatbot here
 
-	sys.stdout.write("RESPONSE IS " +chatBotResponse)
-
 
 	processInput.updateLastSpokenString(datetime.utcnow(), currentUser) #Save current time 
 
