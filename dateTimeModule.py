@@ -3,6 +3,7 @@ import os
 import json, os.path
 import sys
 global userId
+import logging
 
 def init(id):
 	global userId

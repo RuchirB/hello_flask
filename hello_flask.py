@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 import processInput
 import random 
 import logging
+import sys
 from datetime import datetime
 
 
@@ -67,7 +68,8 @@ if __name__ == '__main__':
 	APP.run()
 
 if __name__ != '__main__':
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    APP.logger.handlers = gunicorn_logger.handlers
-    APP.logger.setLevel(gunicorn_logger.level)
+    gunicorn_error_logger = logging.getLogger('gunicorn.error')
+	APP.logger.handlers.extend(gunicorn_error_logger.handlers)
+	APP.logger.setLevel(logging.DEBUG)
+	APP.logger.debug('this will show in the log')
 

@@ -1,5 +1,6 @@
 import requests, datetime, dateTimeModule, json, os.path
 import sys
+import logging
 
 #listOfThree = list()
 class Helper:
