@@ -25,7 +25,7 @@ def main():
 def index(last_answer):
 	global currentUser
 	global chat_history
-	sys.stdout.write("GOING TO LOOK FOR response")
+	sys.stdout.write("Looking for response")
 
 
 	chatBotResponse = processInput.processIt(last_answer, currentUser) #Store the response from the chatbot here
@@ -40,7 +40,9 @@ def index(last_answer):
 	else: #Chat history is already defined
 		chat_history[currentUser] = chat_history[currentUser] + last_answer + "\n" + chatBotResponse 
 
-	return jsonify({"chatbot_response": chatBotResponse})
+	response = jsonify({"chatbot_response": chatBotResponse})
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
 
 
 @APP.route("/get_new_userid", methods=['GET', 'POST']) #simple function to generate a user ID
@@ -77,5 +79,6 @@ if __name__ != '__main__':
 	gunicorn_error_logger = logging.getLogger('gunicorn.error')
 	APP.logger.handlers.extend(gunicorn_error_logger.handlers)
 	APP.logger.setLevel(logging.DEBUG)
+	sys.stdout.write("LOGGING HERE " +chatBotResponse
 	
 
