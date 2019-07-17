@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, jsonify
 import processInput
 import random 
+import logging
 from datetime import datetime
 
 
