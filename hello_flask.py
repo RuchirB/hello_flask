@@ -73,4 +73,7 @@ if __name__ != '__main__':
 	APP.logger.setLevel(logging.DEBUG)
 	APP.logger.debug('this will show in the log')
 	sys.stdout.write("TEST TO SEE IF IT WILL SHOW UP")
+	APP.debug=True
+	APP.run(host='0.0.0.0')
+	APP.run()
 
