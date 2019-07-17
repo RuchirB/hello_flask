@@ -79,6 +79,6 @@ if __name__ != '__main__':
 	gunicorn_error_logger = logging.getLogger('gunicorn.error')
 	APP.logger.handlers.extend(gunicorn_error_logger.handlers)
 	APP.logger.setLevel(logging.DEBUG)
-	sys.stdout.write("LOGGING HERE " +chatBotResponse
-	
+	sys.stdout.write("LOGGING HERE " +chatBotResponse)
+
 
