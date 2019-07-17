@@ -6,6 +6,7 @@ from datetime import datetime
 
 
 
+
 chat_history = {} #A dict in the format of {ID, chathistory}
 
 global currentUser

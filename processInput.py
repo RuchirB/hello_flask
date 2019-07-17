@@ -1,5 +1,5 @@
 import requests, datetime, dateTimeModule, json, os.path
-
+import sys
 
 #listOfThree = list()
 class Helper:
@@ -65,7 +65,7 @@ class Helper:
 			try:
 				rv += str(x+1) +") "+storyEvents[x]["summary_title"] + "\n"
 			except:
-				print(" Error in top 10" )
+				sys.stdout.write(" Error in top 10" )
 
 		return rv
 
@@ -116,7 +116,7 @@ class Helper:
 def sendBackLastSpokenString(userId):
 	lastSpoke = ""
 	if len(userId) == 0:
-		print("USER ID IS NOT EXISTENT WHAT")
+		sys.stdout.write("USER ID IS NOT EXISTENT WHAT")
 	else:
 		lastSpoke = dateTimeModule.init(userId)
 	return lastSpoke
@@ -132,7 +132,7 @@ def processIt(userInput, userId):
 	def elaborateOnStory(userInput):
 		global storyIndex
 		global totalPrintString
-		print("In elaborate on story")
+		sys.stdout.write("In elaborate on story")
 		#if userInput contains something from listOfThree, get that index and call a method elaborate that further describes it
 		elaborated = False
 		elaboration = ""
@@ -141,7 +141,7 @@ def processIt(userInput, userId):
 			for individualWord in userInput.split():
 				if individualWord.lower() in x.lower():
 					storyIndex=Helper.listOfThree.index(x)
-					print("storyIndex is " + str(storyIndex))
+					sys.stdout.write("storyIndex is " + str(storyIndex))
 					totalPrintString += Helper.elaborateOnStory(storyIndex)
 					elaborated = True
 					breakLoop=True
@@ -154,7 +154,7 @@ def processIt(userInput, userId):
 		global totalPrintString
 		global storyIndex
 
-		print("storyIndex is " + str(storyIndex))
+		sys.stdout.write("storyIndex is " + str(storyIndex))
 
 		if("last" in userInput.lower() or "10 events" in userInput):
 			totalPrintString += Helper.last10Events(storyIndex)
@@ -197,7 +197,7 @@ def processIt(userInput, userId):
 				totalPrintString += "What?"+ "\n"
 
 	def displayCategoryNews(userInput):
-		print("Looking to see if " +userInput +" is a category")
+		sys.stdout.write("Looking to see if " +userInput +" is a category")
 		global totalPrintString
 		focusCategory = ""
 		focusCategoryList = []
@@ -207,7 +207,7 @@ def processIt(userInput, userId):
 				totalPrintString += "Searching for stories under " +focusCategory + "..."+ "\n"
 				break
 		if focusCategory is "":
-			print("No Category Match")
+			sys.stdout.write("No Category Match")
 			return False
 		else:
 			for x in Helper.jsonRequest:
@@ -299,7 +299,7 @@ def processIt(userInput, userId):
 			dateTimeModule.lastSpokeUpdate(datetime.datetime.utcnow()) #update the file with the time spoken now for later reference
 		if("new" in userInput.lower()):
 			totalPrintString += Helper.displayNewsStories()
-			print(userId)
+			sys.stdout.write(userId)
 			alreadyResponded = True
 
 		if alreadyResponded != True:

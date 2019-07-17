@@ -1,7 +1,7 @@
 from datetime import datetime
 import os
 import json, os.path
-
+import sys
 global userId
 
 def init(id):
@@ -51,7 +51,7 @@ def lastSpokeUpdate(input): #Updates lastAccessed.txt with latest time, which is
 	
 
 	if len(listOfTimes) == 0:
-		print("Appending " +userId + " for the first time")
+		sys.stdout.write("Appending " +userId + " for the first time")
 		listOfTimes.append({userId : str(input)})
 	else:
 		for x in range (len(listOfTimes)):
@@ -78,7 +78,7 @@ def lastSpoke(): #Gets the value of the last spoken value from the chatbot
 				dateString = listOfTimes[x][userId]
 
 	except:
-		print("Cant load json")
+		sys.stdout.write("Cant load json")
 	
 
 	if not dateString:
@@ -134,14 +134,14 @@ def updateUserTime(input, userId): #Updates lastAccessed.txt with latest time, w
 			lastAccessed.close()
 
 	if len(listOfTimes) == 0:
-		print("Appending " +userId + " for the first time")
+		sys.stdout.write("Appending " +userId + " for the first time")
 		listOfTimes.append({userId : str(input)})
 	else:
 		for dict in listOfTimes[:]: #makes copy so that i can remove from list
 			for key in dict:
 				if userId == key:
-					print(userId +" already in listOftimes @ " + str(listOfTimes.remove(dict)))
-				print("Checkign key " +key +" versus " +userId)
+					sys.stdout.write(userId +" already in listOftimes @ " + str(listOfTimes.remove(dict)))
+				sys.stdout.write("Checkign key " +key +" versus " +userId)
 		listOfTimes.append({userId : str(input)})
 
 
