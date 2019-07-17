@@ -68,7 +68,7 @@ if __name__ == '__main__':
 	APP.run()
 
 if __name__ != '__main__':
-    gunicorn_error_logger = logging.getLogger('gunicorn.error')
+	gunicorn_error_logger = logging.getLogger('gunicorn.error')
 	APP.logger.handlers.extend(gunicorn_error_logger.handlers)
 	APP.logger.setLevel(logging.DEBUG)
 	APP.logger.debug('this will show in the log')
