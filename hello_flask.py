@@ -25,7 +25,13 @@ def main():
 def index(last_answer):
 	global currentUser
 	global chat_history
+	sys.stdout.write("GOING TO LOOK FOR response")
+
+
 	chatBotResponse = processInput.processIt(last_answer, currentUser) #Store the response from the chatbot here
+
+	sys.stdout.write("RESPONSE IS " +chatBotResponse)
+
 
 	processInput.updateLastSpokenString(datetime.utcnow(), currentUser) #Save current time 
 
@@ -71,9 +77,5 @@ if __name__ != '__main__':
 	gunicorn_error_logger = logging.getLogger('gunicorn.error')
 	APP.logger.handlers.extend(gunicorn_error_logger.handlers)
 	APP.logger.setLevel(logging.DEBUG)
-	APP.logger.debug('this will show in the log')
-	sys.stdout.write("TEST TO SEE IF IT WILL SHOW UP")
-	APP.debug=True
-	APP.run(host='0.0.0.0')
-	APP.run()
+	
 
