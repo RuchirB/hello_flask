@@ -61,5 +61,6 @@ def getLastTime(user_id):
 
 if __name__ == '__main__':
 	APP.debug=True
+	APP.run(host='0.0.0.0')
 	APP.run()
 
