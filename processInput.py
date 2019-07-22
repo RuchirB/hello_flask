@@ -114,7 +114,7 @@ class Helper:
 			if jsonDict["story_name"] == storyName:
 				Helper.listOfHistory.remove(jsonDict)
 
-		save_res = requests.post("https://newslens.berkeley.edu/api/ruchir/save/"+str(user_id), data=json.dumps(Helper.listOfHistory))
+		save_res = requests.post("https://newslens.berkeley.edu/api/ruchir/save/"+str(userId), data=json.dumps(Helper.listOfHistory))
 		sys.stdout.write("Just added story to newslens " +save_res.text)
 
 		'''
@@ -184,7 +184,7 @@ def processIt(userInput, userId):
 		global totalPrintString
 
 
-		save_res = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(user_id)).json()
+		save_res = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId)).json()
 		array = save_res
 
 		'''
@@ -255,7 +255,7 @@ def processIt(userInput, userId):
 		array = json.load(storyFile)
 		'''
 
-		save_res = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(user_id)).json()
+		save_res = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId)).json()
 		array = save_res
 
 		id = ""
