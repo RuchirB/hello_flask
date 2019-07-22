@@ -168,16 +168,19 @@ def processIt(userInput, userId):
 		global totalPrintString
 		global storyIndex
 
-		sys.stdout.write("storyIndex is " + str(storyIndex))
-
-		if("last" in userInput.lower() or "10 events" in userInput):
-			totalPrintString += Helper.last10Events(storyIndex)
-			return True
-		elif("people" in userInput or "said" in userInput):
-			totalPrintString+= Helper.peopleSaid(storyIndex)	
-			return True
+		if storyIndex is None:
+			pass
 		else:
-			return False
+			sys.stdout.write("storyIndex is " + str(storyIndex))
+
+			if("last" in userInput.lower() or "10 events" in userInput):
+				totalPrintString += Helper.last10Events(storyIndex)
+				return True
+			elif("people" in userInput or "said" in userInput):
+				totalPrintString+= Helper.peopleSaid(storyIndex)	
+				return True
+			else:
+				return False
 
 
 	def giveUserHistory():
