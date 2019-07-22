@@ -94,7 +94,7 @@
                     $("#chat_container img:last-child").remove()
                     $('#chat_container').append("<div class='server_reply'> <font color='white'> "+response +"</div>");
                 }).fail(function(jqXHR, textStatus, errorThrown)  { 
-                	console.log("Couldn't get response from server, " +textStatus + " incoming text " + ); })
+                	console.log("Couldn't get response from server, " +textStatus ); })
                 .done(function() { alert('getJSON request succeeded!'); })
                 .always(function() { alert('getJSON request ended!'); });
 
