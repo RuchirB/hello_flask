@@ -104,7 +104,7 @@ class Helper:
 	def saveStoryName(storyId):
 		Helper.loadSavedHistory()
 		for y in range(len(Helper.jsonRequest)):
-			if Helper.jsonRequest[y]["id"] == int(storyId):
+			if Helper.jsonRequest["tiles"][y]["id"] == int(storyId):
 				storyName= Helper.jsonRequest["tiles"][y]["story_name"]
 
 
