@@ -82,7 +82,7 @@ class Helper:
 
 	@staticmethod
 	def loadSavedHistory():
-		data_reloaded = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(user_id)).json()
+		data_reloaded = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId)).json()
 		sys.stdout.write("Just retrieved data " +str(data_reloaded))
 		Helper.listOfHistory = data_reloaded
 
