@@ -10,6 +10,7 @@
                 $('#chat_container').append("<div class='last_answer' >" +last_answer+"</div>");
 
                 $('#chat_container').append("<center> <img src='https://i.stack.imgur.com/SBv4T.gif' title='...' /> </center>"); //displays loading gif for a second
+                console.log("Asking server for response ")
 
 				$.getJSON(url, function(server_response) {
 					console.log(server_response['chatbot_response'])
@@ -17,7 +18,13 @@
                     var response = server_response['chatbot_response'].replace(/(?:\r\n|\r|\n)/g, '<br>')
                     $("#chat_container img:last-child").remove()
                     $('#chat_container').append("<div class='server_reply'> <font color='white'> "+response +"</div>");
-                })
+                }).fail(function(jqXHR, textStatus, errorThrown)  { 
+                	console.log("Couldn't get response from server, " +textStatus + " incoming text " + ) })
+                .done(function() { alert('getJSON request succeeded!'); })
+                .always(function() { alert('getJSON request ended!'); });
+
+
+
 			}	
 		</script>
 
