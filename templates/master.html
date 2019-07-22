@@ -6,7 +6,7 @@
       <script type='text/javascript'>
          function send_message() {
 				var last_answer=$('#input_ID').val()
-				var url = "https://newslens-chatbot.herokuapp.com:5000/last_answer/" +last_answer
+				var url = "https://newslens-chatbot.herokuapp.com/last_answer/" +last_answer
                 $('#chat_container').append("<div class='last_answer' >" +last_answer+"</div>");
 
                 $('#chat_container').append("<center> <img src='https://i.stack.imgur.com/SBv4T.gif' title='...' /> </center>"); //displays loading gif for a second
