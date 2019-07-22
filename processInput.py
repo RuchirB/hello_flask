@@ -82,9 +82,13 @@ class Helper:
 
 	@staticmethod
 	def loadSavedHistory():
-		data_reloaded = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId)).json()
-		sys.stdout.write("Just retrieved data " +str(data_reloaded))
-		Helper.listOfHistory = data_reloaded
+		try:
+			data_reloaded = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId)).json()
+			sys.stdout.write("Just retrieved data " +str(data_reloaded))
+			Helper.listOfHistory = data_reloaded
+		except:
+			sys.stdout.write("Couldn't retrieve history")
+
 
 		'''
 		if(os.path.isfile(path)):
