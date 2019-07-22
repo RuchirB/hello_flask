@@ -29,7 +29,7 @@ class Helper:
 	@staticmethod
 	def elaborateOnStory(storyIndex):
 		#information needed: Date of story & summary of first event
-		storyTime = Helper.jsonRequest[storyIndex]["extent"]["start"]
+		storyTime = Helper.jsonRequest["tiles"][storyIndex]["extent"]["start"]
 		year = int(storyTime[0:4])
 		month = int(storyTime[5:7])
 		day = int(storyTime[8:10])
