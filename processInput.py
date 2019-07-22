@@ -19,7 +19,7 @@ class Helper:
 		Helper.jsonRequest = resp.json()
 		#Grab top three stories in a list
 		for x in range(3):
-			Helper.listOfThree.append(Helper.jsonRequest[x]["story_name"])
+			Helper.listOfThree.append(Helper.jsonRequest["tiles"][x]["story_name"])
 		Helper.loadSavedHistory()
 
 	@staticmethod
@@ -39,7 +39,7 @@ class Helper:
 		storySummary = Helper.jsonRequest[storyIndex]["latest_highlights"][0]["summary"]
 
 		#story name
-		storyName = Helper.jsonRequest[storyIndex]["story_name"]
+		storyName = Helper.jsonRequest["tiles"][storyIndex]["story_name"]
 
 
 
@@ -60,7 +60,7 @@ class Helper:
 	@staticmethod
 	def last10Events(storyIndex): #After the user asks for a story, they can ask for the last 10 events
 		rv = ""
-		rv += "Here are the last ten events for " +Helper.jsonRequest[storyIndex]["story_name"] +":"+"\n"
+		rv += "Here are the last ten events for " +Helper.jsonRequest["tiles"][storyIndex]["story_name"] +":"+"\n"
 		storyEvents = Helper.jsonRequest[storyIndex]["latest_highlights"]
 		for x in range (10):
 			try:
@@ -101,7 +101,7 @@ class Helper:
 		Helper.loadSavedHistory()
 		for y in range(len(Helper.jsonRequest)):
 			if Helper.jsonRequest[y]["id"] == int(storyId):
-				storyName= Helper.jsonRequest[y]["story_name"]
+				storyName= Helper.jsonRequest["tiles"][y]["story_name"]
 
 
 		myDict = {"story_name":storyName, "id":storyId, "accessTime":str(datetime.datetime.utcnow())}
@@ -192,7 +192,7 @@ def processIt(userInput, userId):
 		for x in range(len(array)):
 			id = array[x]["id"] #Pull out the ID from the line
 
-			totalPrintString += array[x]["story_name"] +", accessed: " +array[x]["accessTime"] + "\n"
+			totalPrintString += array["tiles"][x]["story_name"] +", accessed: " +array[x]["accessTime"] + "\n"
 		storyFile.close()
 		return True
 
@@ -226,7 +226,7 @@ def processIt(userInput, userId):
 			sys.stdout.write("No Category Match")
 			return False
 		else:
-			for x in Helper.jsonRequest:
+			for x in Helper.jsonRequest["tiles"]:
 				if x["type"].lower() == focusCategory.lower():
 					focusCategoryList.append(x)
 
@@ -238,7 +238,7 @@ def processIt(userInput, userId):
 
 	def checkEveryArticleName(userInput):
 		i = -1
-		for article in Helper.jsonRequest:
+		for article in Helper.jsonRequest["tiles"]:
 			i = i+1
 			if userInput.lower() in article["story_name"].lower():
 				Helper.elaborateOnStory(i)
@@ -279,7 +279,7 @@ def processIt(userInput, userId):
 			pubTime = dateTimeModule.timeFormat(storyJson["highlights"][indexFromEnd]["pubtime"])
 			totalPrintString += str(pubTime)+ "\n"
 			if(pubTime > accessTime):
-				totalPrintString += "One update you missed from " +dateTimeModule.constructTimeDeltaPhrase(pubtime - accessTime) +"is " +Helper.jsonRequest[y]["latest_highlights"][indexBackwards]["summary_title"]
+				totalPrintString += "One update you missed from " +dateTimeModule.constructTimeDeltaPhrase(pubtime - accessTime) +"is " +Helper.jsonRequest["tiles"][y]["latest_highlights"][indexBackwards]["summary_title"]
 				givenUpdate = True
 		if givenUpdate is False:
 			totalPrintString += "You're all up to date with " +storyJson[story_name]+ "\n"
@@ -293,13 +293,13 @@ def processIt(userInput, userId):
 
 		prompt = False
 		number = 0
-		for story in range(len(Helper.jsonRequest)):
-			if userInput.lower() in Helper.jsonRequest[story]["geotext"].lower():
+		for story in range(len(Helper.jsonRequest["tiles"])):
+			if userInput.lower() in Helper.jsonRequest["tiles"][story]["geotext"].lower():
 				number= number+1
 				if prompt == False:
-					totalPrintString += "Here are some stories from " +Helper.jsonRequest[story]["geotext"] +": \n"+ "\n"
+					totalPrintString += "Here are some stories from " +Helper.jsonRequest["tiles"][story]["geotext"] +": \n"+ "\n"
 					prompt = True
-				totalPrintString += str(number) +") " +Helper.jsonRequest[story]["story_name"]+ "\n"
+				totalPrintString += str(number) +") " +Helper.jsonRequest["tiles"][story]["story_name"]+ "\n"
 
 
 
