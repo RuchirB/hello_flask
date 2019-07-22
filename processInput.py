@@ -36,7 +36,7 @@ class Helper:
 		date = datetime.datetime(year, month, day)
 		#story started @
 		daysAgo = datetime.datetime.utcnow() - date
-		storySummary = Helper.jsonRequest[storyIndex]["latest_highlights"][0]["summary"]
+		storySummary = Helper.jsonRequest["tiles"][storyIndex]["latest_highlights"][0]["summary"]
 
 		#story name
 		storyName = Helper.jsonRequest["tiles"][storyIndex]["story_name"]
@@ -44,7 +44,7 @@ class Helper:
 
 
 		#Last Update
-		storyTimeLast = Helper.jsonRequest[storyIndex]["latest_highlights"][0]["pubtime"]
+		storyTimeLast = Helper.jsonRequest["tiles"][storyIndex]["latest_highlights"][0]["pubtime"]
 		yearLast = int(storyTimeLast[0:4])
 		monthLast = int(storyTimeLast[5:7])
 		dayLast = int(storyTimeLast[8:10])
@@ -53,7 +53,7 @@ class Helper:
 		daysAgoLast = datetime.datetime.utcnow() - dateLast
 
 		#Saving story
-		Helper.saveStoryName(Helper.jsonRequest[storyIndex]["id"])
+		Helper.saveStoryName(Helper.jsonRequest["tiles"][storyIndex]["id"])
 
 		return "The " +storyName + " story started " +dateTimeModule.constructTimeDeltaPhrase(daysAgo) +". The latest update from this story comes from " +dateTimeModule.constructTimeDeltaPhrase(daysAgoLast) +" when " + storySummary
 
@@ -61,7 +61,7 @@ class Helper:
 	def last10Events(storyIndex): #After the user asks for a story, they can ask for the last 10 events
 		rv = ""
 		rv += "Here are the last ten events for " +Helper.jsonRequest["tiles"][storyIndex]["story_name"] +":"+"\n"
-		storyEvents = Helper.jsonRequest[storyIndex]["latest_highlights"]
+		storyEvents = Helper.jsonRequest["tiles"][storyIndex]["latest_highlights"]
 		for x in range (10):
 			try:
 				rv += str(x+1) +") "+storyEvents[x]["summary_title"] + "\n"
@@ -72,8 +72,8 @@ class Helper:
 
 	@staticmethod
 	def peopleSaid(storyIndex):
-		highlightInfoUrl = "https://newslens.berkeley.edu/api/highlight_info/" + str(Helper.jsonRequest[storyIndex]["latest_highlights"][0]["_id"] )
-		peopleInfoUrl = "https://newslens.berkeley.edu/api/story/" + str(Helper.jsonRequest[storyIndex]["latest_highlights"][0]["ntopic"])+ "/people"
+		highlightInfoUrl = "https://newslens.berkeley.edu/api/highlight_info/" + str(Helper.jsonRequest["tiles"][storyIndex]["latest_highlights"][0]["_id"] )
+		peopleInfoUrl = "https://newslens.berkeley.edu/api/story/" + str(Helper.jsonRequest["tiles"][storyIndex]["latest_highlights"][0]["ntopic"])+ "/people"
 		highlightJson = requests.get(highlightInfoUrl).json()
 		peopleList = requests.get(peopleInfoUrl).json()
 
