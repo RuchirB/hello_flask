@@ -82,8 +82,11 @@ class Helper:
 
 	@staticmethod
 	def loadSavedHistory():
-		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
+		data_reloaded = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(user_id)).json()
+		sys.stdout.write("Just retrieved data " +str(data_reloaded))
+		Helper.listOfHistory = data_reloaded
 
+		'''
 		if(os.path.isfile(path)):
 			storyFile = open(path, "r")
 			try:
@@ -91,6 +94,7 @@ class Helper:
 			except ValueError as e:
 				pass
 			storyFile.close()
+		'''
 
 	@staticmethod
 	def saveStoryName(storyId):
@@ -106,11 +110,16 @@ class Helper:
 			if jsonDict["story_name"] == storyName:
 				Helper.listOfHistory.remove(jsonDict)
 
+		save_res = requests.post("https://newslens.berkeley.edu/api/ruchir/save/"+str(user_id), data=json.dumps(Helper.listOfHistory))
+		sys.stdout.write("Just added story to newslens " +save_res.text)
+
+		'''
 		Helper.listOfHistory.append(myDict)
 		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
 		storyFile = open(path, "w")
 		storyFile.write(json.dumps(Helper.listOfHistory))
 		storyFile.close()
+		'''
 
 #End class helper
 
@@ -169,10 +178,16 @@ def processIt(userInput, userId):
 
 	def giveUserHistory():
 		global totalPrintString
-		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
 
+
+		save_res = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(user_id)).json()
+		array = save_res
+
+		'''
+		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
 		storyFile = open(path, "r")
 		array = json.load(storyFile)
+		'''
 		totalPrintString += "Here are the stories you've asked about before: \n"
 		for x in range(len(array)):
 			id = array[x]["id"] #Pull out the ID from the line
@@ -230,9 +245,15 @@ def processIt(userInput, userId):
 
 
 	def checkForHistory(userInput):
+		'''
 		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
 		storyFile = open(path, "r")
 		array = json.load(storyFile)
+		'''
+
+		save_res = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(user_id)).json()
+		array = save_res
+
 		id = ""
 		for x in range(len(array)):
 			if(userInput.lower() in array[x]["story_name"].lower()):
@@ -297,7 +318,7 @@ def processIt(userInput, userId):
 
 		if(alreadyResponded != True and "exit" in userInput):
 			exit=True
-			dateTimeModule.lastSpokeUpdate(datetime.datetime.utcnow()) #update the file with the time spoken now for later reference
+			#dateTimeModule.lastSpokeUpdate(datetime.datetime.utcnow()) #update the file with the time spoken now for later reference
 		if("new" in userInput.lower()):
 			totalPrintString += Helper.displayNewsStories()
 			sys.stdout.write(userId)

@@ -31,7 +31,7 @@ def index(last_answer):
 	chatBotResponse = processInput.processIt(last_answer, currentUser) #Store the response from the chatbot here
 
 
-	processInput.updateLastSpokenString(datetime.utcnow(), currentUser) #Save current time 
+	#processInput.updateLastSpokenString(datetime.utcnow(), currentUser) #Save current time 
 
 	if currentUser not in chat_history: #First chat
 		chat_history.update({currentUser: last_answer + "\n" + chatBotResponse}) #Adding the user to the chat_history dict with the first chat request and response
@@ -64,8 +64,8 @@ def setId(user_id):
 
 @APP.route('/getLastTime/<user_id>', methods=['GET', 'POST'])
 def getLastTime(user_id):
-	lastTime = processInput.sendBackLastSpokenString(user_id)
-	return jsonify({"lastTime": lastTime})
+	#lastTime = processInput.sendBackLastSpokenString(user_id)
+	#return jsonify({"lastTime": lastTime})
 
 
 if __name__ == '__main__':
