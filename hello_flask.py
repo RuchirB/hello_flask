@@ -47,25 +47,33 @@ def index(last_answer):
 def get_new_userid():
 	global currentUser
 	if currentUser != "":
-		return jsonify({"user_id":"Already Defined", "defined_id" : currentUser})
+		response= jsonify({"user_id":"Already Defined", "defined_id" : currentUser})
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
 	else:
 		user_id = int(random.random()*10000)
 		while user_id in chat_history:
 			user_id = int(random.random()*10000)
 			currentUser = "user_"+str(user_id)
-		return jsonify({"user_id": "user_"+str(user_id)}) # Simple way of generating a "unique" id
+		response= jsonify({"user_id": "user_"+str(user_id)}) # Simple way of generating a "unique" id
+		response.headers.add('Access-Control-Allow-Origin', '*')
+		return response
 
 
 @APP.route('/set_old_userid/<user_id>', methods=['GET', 'POST'])
 def setId(user_id):
 	global currentUser
 	currentUser = user_id
-	return jsonify({"user_id": currentUser})
+	response = jsonify({"user_id": currentUser})
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
 
 @APP.route('/getLastTime/<user_id>', methods=['GET', 'POST'])
 def getLastTime(user_id):
 	#lastTime = processInput.sendBackLastSpokenString(user_id)
 	#return jsonify({"lastTime": lastTime})
+	response = jsonify({"user_id": "2019-07-14 21:21:59.441900"})
+	response.headers.add('Access-Control-Allow-Origin', '*')
 	pass
 
 if __name__ == '__main__':

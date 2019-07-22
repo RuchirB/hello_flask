@@ -10,7 +10,7 @@
 				var url = "https://newslens-chatbot.herokuapp.com:5000/last_answer/" +last_answer
                 $('#chat_container').append("<div class='last_answer' >" +last_answer+"</div>");
 
-                $('#chat_container').append("<center> <img src='http://i.stack.imgur.com/SBv4T.gif' title='...' /> </center>"); //displays loading gif for a second
+                $('#chat_container').append("<center> <img src='https://i.stack.imgur.com/SBv4T.gif' title='...' /> </center>"); //displays loading gif for a second
 
 				$.getJSON(url, function(server_response) {
 					console.log(server_response['chatbot_response'])
