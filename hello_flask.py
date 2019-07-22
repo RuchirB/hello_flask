@@ -5,6 +5,7 @@ import random
 import logging
 import sys
 from datetime import datetime
+from flask_cors import CORS
 
 
 
@@ -16,6 +17,7 @@ currentUser = ""
 
 # Create the application.
 APP = Flask(__name__)
+CORS(APP)
 
 @APP.route('/', methods=['GET', 'POST'])
 def main():

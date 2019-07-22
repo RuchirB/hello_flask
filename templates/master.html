@@ -5,7 +5,6 @@
 
       <script type='text/javascript'>
          function send_message() {
-				console.log("Button clicked") //I don't even get this log message!
 				var last_answer=$('#input_ID').val()
 				var url = "https://newslens-chatbot.herokuapp.com:5000/last_answer/" +last_answer
                 $('#chat_container').append("<div class='last_answer' >" +last_answer+"</div>");
