@@ -7,7 +7,7 @@
          function send_message() {
 				console.log("Button clicked") //I don't even get this log message!
 				var last_answer=$('#input_ID').val()
-				var url = "http://newslens-chatbot.herokuapp.com:5000/last_answer/" +last_answer
+				var url = "https://newslens-chatbot.herokuapp.com:5000/last_answer/" +last_answer
                 $('#chat_container').append("<div class='last_answer' >" +last_answer+"</div>");
 
                 $('#chat_container').append("<center> <img src='http://i.stack.imgur.com/SBv4T.gif' title='...' /> </center>"); //displays loading gif for a second
@@ -40,7 +40,7 @@
 
 			if(Cookies.get('user_id') == undefined){
 				console.log("No user_id defined, creating a new one.");
-				var url = "http://newslens-chatbot.herokuapp.com:5000/get_new_userid";
+				var url = "https://newslens-chatbot.herokuapp.com:5000/get_new_userid";
 
 				$.getJSON(url, function(server_response) {
 					console.log("server response received " +server_response["user_id"])
@@ -62,7 +62,7 @@
 			}else{
 				console.log("Cookie: " + Cookies.get('user_id'))
 				$('#id_container').append("<div class='userID'> " +"Current User: " + Cookies.get('user_id')+"</div>");
-				var url = "http://newslens-chatbot.herokuapp.com:5000/set_old_userid/" +Cookies.get('user_id');
+				var url = "https://newslens-chatbot.herokuapp.com:5000/set_old_userid/" +Cookies.get('user_id');
 
 				$.getJSON(url, function(server_response) {
 					console.log("set id to " +server_response["user_id"])
@@ -74,7 +74,7 @@
 
 
 		console.log("Getting time")
-			var url = "http://newslens-chatbot.herokuapp.com:5000/getLastTime/" +Cookies.get('user_id');
+			var url = "https://newslens-chatbot.herokuapp.com:5000/getLastTime/" +Cookies.get('user_id');
 			userId = $('#id_container').text()
 			console.log("USER ID IS GOING TO BE " +Cookies.get('user_id'))
 			$.getJSON(url, function(server_response) {
