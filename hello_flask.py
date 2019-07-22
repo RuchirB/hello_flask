@@ -66,7 +66,7 @@ def setId(user_id):
 def getLastTime(user_id):
 	#lastTime = processInput.sendBackLastSpokenString(user_id)
 	#return jsonify({"lastTime": lastTime})
-
+	pass
 
 if __name__ == '__main__':
 	APP.debug=True
