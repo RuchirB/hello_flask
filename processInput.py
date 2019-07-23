@@ -115,9 +115,10 @@ class Helper:
 				Helper.listOfHistory.remove(jsonDict)
 
 		Helper.listOfHistory.append(myDict)
-
-		save_res = requests.post("https://newslens.berkeley.edu/api/ruchir/save/"+str(userId), data=json.dumps(Helper.listOfHistory))
-		sys.stdout.write("Just added story to newslens " +json.dumps(Helper.listOfHistory) +" " +save_res.text)
+		url = "https://newslens.berkeley.edu/api/ruchir/save/"+str(userId)
+		save_res = requests.post(url, data=json.dumps(Helper.listOfHistory))
+		sys.stdout.write("Just added story to newslens with the following JSON: \n "
+		 +json.dumps(Helper.listOfHistory) +" \n Response from API:" +save_res.text +" \n API URL: \n " +url)
 
 		'''
 		Helper.listOfHistory.append(myDict)
