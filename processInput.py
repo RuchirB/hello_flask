@@ -117,7 +117,7 @@ class Helper:
 		Helper.listOfHistory.append(myDict)
 		url = "https://newslens.berkeley.edu/api/ruchir/save/"+str(userId)
 		save_res = requests.post(url, data=json.dumps(Helper.listOfHistory))
-		sys.stdout.write("Just added story to newslens with the following JSON: \n "
+		sys.stdout.write("Just added" +str(userId) +"'s story to newslens with the following JSON: \n "
 		 +json.dumps(Helper.listOfHistory) +" \n Response from API:" +save_res.text +" \n API URL: \n " +url)
 
 		'''
