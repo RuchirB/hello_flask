@@ -114,6 +114,8 @@ class Helper:
 			if jsonDict["story_name"] == storyName:
 				Helper.listOfHistory.remove(jsonDict)
 
+		Helper.listOfHistory.append(myDict)
+
 		save_res = requests.post("https://newslens.berkeley.edu/api/ruchir/save/"+str(userId), data=json.dumps(Helper.listOfHistory))
 		sys.stdout.write("Just added story to newslens " +json.dumps(Helper.listOfHistory) +" " +save_res.text)
 
