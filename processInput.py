@@ -102,27 +102,31 @@ class Helper:
 
 	@staticmethod
 	def saveStoryName(storyId):
-		Helper.loadSavedHistory()
-		for y in range(len(Helper.jsonRequest)):
+		Helper.loadSavedHistory() 
+		for y in range(len(Helper.jsonRequest)): #Look through stories in recent2 API for the name of the story the user needs to store
 			if Helper.jsonRequest["tiles"][y]["id"] == int(storyId):
-				storyName= Helper.jsonRequest["tiles"][y]["story_name"]
+				storyName= Helper.jsonRequest["tiles"][y]["story_name"] 
 
 
-		myDict = {"story_name":storyName, "id":storyId, "accessTime":str(datetime.datetime.utcnow())}
+		myDict = {"story_name":storyName, "id":storyId, "accessTime":str(datetime.datetime.utcnow())} 
 		
-		for jsonDict in Helper.listOfHistory:
+		for jsonDict in Helper.listOfHistory: #remove any other instances of the same storyname in the user's history
 			if jsonDict["story_name"] == storyName:
 				Helper.listOfHistory.remove(jsonDict)
 
-		Helper.listOfHistory.append(myDict)
-		idNumber = str(userId).split("user_", 1)[1]
+		Helper.listOfHistory.append(myDict) #Add dict of story to the list of JSON
+
+		#Save to newslens:
+		idNumber = (str(userId)).split("user_", 1)[1]
 		url = "https://newslens.berkeley.edu/api/ruchir/save/"+str(idNumber)
 		save_res = requests.post(url, data=json.dumps(Helper.listOfHistory))
-		sys.stdout.write("Just added" +str(userId) +"'s story to newslens with the following JSON: \n "
-		 +json.dumps(Helper.listOfHistory) +" \n Response from API:" +save_res.text +" \n API URL: \n " +url)
 
+		#Log results:
+		sys.stdout.write("Just added" +str(userId) +"'s story to newslens with the following JSON: \n "
+		 +json.dumps(Helper.listOfHistory) +" \n Response from API:" +save_res.text +" \n API URL: \n " +url + "\n")
+
+		#Previous method of saving to a file (which worked)
 		'''
-		Helper.listOfHistory.append(myDict)
 		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
 		storyFile = open(path, "w")
 		storyFile.write(json.dumps(Helper.listOfHistory))
