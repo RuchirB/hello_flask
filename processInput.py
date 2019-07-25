@@ -209,7 +209,7 @@ def processIt(userInput, userId):
 		for x in range(len(array)):
 			id = array[x]["id"] #Pull out the ID from the line
 
-			totalPrintString += array["tiles"][x]["story_name"] +", accessed: " +array[x]["accessTime"] + "\n"
+			totalPrintString += array[x]["story_name"] +", accessed: " +array[x]["accessTime"] + "\n"
 		#storyFile.close()
 		return True
 
