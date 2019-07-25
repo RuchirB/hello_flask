@@ -117,8 +117,8 @@ class Helper:
 		Helper.listOfHistory.append(myDict) #Add dict of story to the list of JSON
 
 		#Save to newslens:
-		idNumber = (str(userId)).split("user_", 1)[1]
-		url = "https://newslens.berkeley.edu/api/ruchir/save/"+str(idNumber)
+		
+		url = "https://newslens.berkeley.edu/api/ruchir/save/"+userId
 		save_res = requests.post(url, data=json.dumps(Helper.listOfHistory))
 
 		#Log results:
