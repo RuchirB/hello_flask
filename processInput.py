@@ -198,8 +198,8 @@ def processIt(userInput, userId):
 
 
 		save_res = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId))
-		sys.stdout.write(str(save_res.json()))
-		array = save_res.json()
+		sys.stdout.write(str(save_res))
+		array = save_res
 
 		'''
 		path = "/Users/ruchirbaronia/Desktop/PythonProjects/JSONfun/hello_flask/historyFiles/storyInteractions_" +str(userId) +".txt"
