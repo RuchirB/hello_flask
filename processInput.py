@@ -83,7 +83,7 @@ class Helper:
 	@staticmethod
 	def loadSavedHistory():
 		try:
-			data_reloaded = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId)).json()
+			data_reloaded = requests.get("https://newslens.berkeley.edu/api/ruchir/load/"+str(userId))
 			sys.stdout.write("Just retrieved data " +str(data_reloaded))
 			Helper.listOfHistory = data_reloaded
 		except:
