@@ -178,9 +178,7 @@ def processIt(userInput, userId):
 		global totalPrintString
 		global storyIndex
 
-		if storyIndex is None:
-			pass
-		else:
+		try:
 			sys.stdout.write("storyIndex is " + str(storyIndex))
 
 			if("last" in userInput.lower() or "10 events" in userInput):
@@ -191,6 +189,8 @@ def processIt(userInput, userId):
 				return True
 			else:
 				return False
+		except:
+			pass
 
 
 	def giveUserHistory():
