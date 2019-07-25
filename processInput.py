@@ -102,6 +102,8 @@ class Helper:
 
 	@staticmethod
 	def saveStoryName(storyId):
+		sys.stdout.write("Saving story with ID " +str(storyId))
+
 		Helper.loadSavedHistory() 
 		for y in range(len(Helper.jsonRequest)): #Look through stories in recent2 API for the name of the story the user needs to store
 			if Helper.jsonRequest["tiles"][y]["id"] == int(storyId):
