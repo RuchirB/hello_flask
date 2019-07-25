@@ -207,10 +207,14 @@ def processIt(userInput, userId):
 		array = json.load(storyFile)
 		'''
 		totalPrintString += "Here are the stories you've asked about before: \n"
-		for x in range(len(array)):
-			id = array[x]["id"] #Pull out the ID from the line
+		
+		try:
+			for x in range(len(array)):
+				id = array[x]["id"] #Pull out the ID from the line
 
-			totalPrintString += array[x]["story_name"] +", accessed: " +array[x]["accessTime"] + "\n"
+				totalPrintString += array[x]["story_name"] +", accessed: " +array[x]["accessTime"] + "\n"
+		except:
+			totalPrintString = "No history available."
 		#storyFile.close()
 		return True
 
